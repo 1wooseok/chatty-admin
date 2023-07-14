@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body
+{
+    color: rgba(0, 0, 0, 0.87);
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.43;
+    background-color: #fafafa;
+    display: block;
+    min-height: 100vh;
+}
+
+.h1 {
+    @apply font-bold text-[1.5rem];
+}
+
