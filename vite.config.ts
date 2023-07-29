@@ -23,46 +23,6 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{
-				find: '~/components',
-				replacement: path.resolve(__dirname, 'src/components'),
-			},
-			{
-				find: '~/utils',
-				replacement: path.resolve(__dirname, 'src/utils'),
-			},
-			{
-				find: '~/styles',
-				replacement: path.resolve(__dirname, 'src/styles'),
-			},
-			{
-				find: '~/services',
-				replacement: path.resolve(__dirname, 'src/services'),
-			},
-			{
-				find: '~/hooks',
-				replacement: path.resolve(__dirname, 'src/hooks'),
-			},
-			{
-				find: '~/types',
-				replacement: path.resolve(__dirname, 'src/types'),
-			},
-			{
-				find: '~/constants',
-				replacement: path.resolve(__dirname, 'src/constants'),
-			},
-			{
-				find: '~/pages',
-				replacement: path.resolve(__dirname, 'src/pages'),
-			},
-			{
-				find: '~/api',
-				replacement: path.resolve(__dirname, 'src/api'),
-			},
-			{
-				find: '~/shared',
-				replacement: path.resolve(__dirname, 'src/shared'),
-			},
-			{
 				find: '~',
 				replacement: path.resolve(__dirname, 'src')
 			},

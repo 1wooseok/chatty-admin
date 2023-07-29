@@ -1,48 +1,16 @@
-import { Card } from 'primereact/card'
-import { Link } from 'react-router-dom'
-import { ReactNode } from 'react'
-import { Chart } from 'primereact/chart'
+import {
+	Suspense,
+} from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
+import HomeCard from '~/pages/home/children/HomeCard.tsx'
+import ChattyList from '~/pages/home/children/ChattyList.tsx'
+import { ErrorBoundary } from 'react-error-boundary'
+import UserList from '~/pages/home/children/UserList.tsx'
+import ReportList from '~/pages/home/children/ReportList.tsx'
 
 export default function Home()
 {
-	const chartData = {
-		labels: ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7'],
-		datasets: [
-			{
-				label: 'Sales',
-				data: [540, 325, 702, 620, 325, 702, 620],
-				borderWidth: 1
-			}
-		]
-	}
-	
-	const options = {
-		options: {
-			legend: {
-				display: false
-			},
-		},
-		scales: {
-			x: {
-				grid: {
-					display: false, // show grid lines on the x-axis
-					color: 'rgba(0, 0, 0, 0.1)', // grid line color
-					// drawBorder: true, // draw border around the chart
-					// drawOnChartArea: true // draw grid lines on the chart area
-					// more options available
-				}
-			},
-			y: {
-				grid: {
-					beginWithZero: true,
-					display: false, // show grid lines on the x-axis
-				}
-			}
-		},
-	}
-	
 	const tableData = [
 		{
 			pk: 1,
@@ -73,55 +41,43 @@ export default function Home()
 			
 			<div
 				// style={{ background: 'hsla(330, 75%, 85%, 0.3)'}}
-				className={'grid grid-cols-2 gap-2xl p-[16px] rounded-[12px]'}
+				// className={'grid grid-cols-2 gap-2xl p-[16px] rounded-[12px]'}
 			>
-				<HomeCard title={'질문수'} href={''}>
-					<Chart type="line" data={chartData} options={options} />
+				<HomeCard title={'질문 리스트'} href={''}>
+					<ErrorBoundary fallback={<div>Request Error</div>}>
+						<Suspense fallback={<h1>...Loading</h1>}>
+							<ChattyList />
+						</Suspense>
+					</ErrorBoundary>
 				</HomeCard>
 				
-				<HomeCard title={'최근 질문'} href={''}>
-					<DataTable value={tableData}>
-						<Column header={'pk'} field={'pk'} />
-						<Column header={'author'} field={'author'} />
-						<Column header={'dest'} field={'dest'} />
-						<Column header={'status'} field={'status'} />
-						<Column header={'created_at'} field={'created_at'} />
-					</DataTable>
-				</HomeCard>
+				{/*<HomeCard title={'유저 리스트'} href={''}>*/}
+				{/*	<ErrorBoundary fallback={<div>Request Error</div>}>*/}
+				{/*		<Suspense fallback={<h1>...Loading</h1>}>*/}
+				{/*			<UserList />*/}
+				{/*		</Suspense>*/}
+				{/*	</ErrorBoundary>*/}
+				{/*</HomeCard>*/}
 				
-				<Card/>
-				<Card/>
+				{/*<HomeCard title={'신고 리스트'} href={''}>*/}
+				{/*	<ErrorBoundary fallback={<div>Request Error</div>}>*/}
+				{/*		<Suspense fallback={<h1>...Loading</h1>}>*/}
+				{/*			<ReportList />*/}
+				{/*		</Suspense>*/}
+				{/*	</ErrorBoundary>*/}
+				{/*</HomeCard>*/}
+				
+				{/*<HomeCard title={'질문 리스트'} href={''}>*/}
+				{/*	<DataTable value={tableData}>*/}
+				{/*		<Column header={'pk'} field={'pk'} />*/}
+				{/*		<Column header={'author'} field={'author'} />*/}
+				{/*		<Column header={'dest'} field={'dest'} />*/}
+				{/*		<Column header={'status'} field={'status'} />*/}
+				{/*		<Column header={'created_at'} field={'created_at'} />*/}
+				{/*	</DataTable>*/}
+				{/*	*/}
+				{/*</HomeCard>*/}
 			</div>
 		</div>
-	)
-}
-
-type Props = {
-	title: string;
-	href?: string;
-	children: ReactNode;
-}
-
-function HomeCard({
-	title,
-	href,
-	children
-}: Props)
-{
-	const Title = (
-		<div className={'flex justify-between items-center'}>
-			<p className={'text-[18px] text-black font-bold'}>{title}</p>
-			{href ? <div className={'text-sm font-medium'}>
-				<Link to={href} className={'text-[#B3B3B3]'}>더보기</Link>
-			</div> : null}
-		</div>
-	)
-	
-	return (
-		<Card title={Title} style={{ boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 4px 0px'}}>
-			<div>
-				{children}
-			</div>
-		</Card>
 	)
 }
