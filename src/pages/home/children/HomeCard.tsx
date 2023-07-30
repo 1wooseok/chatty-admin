@@ -24,7 +24,7 @@ export default function HomeCard({
 	)
 	
 	return (
-		<Card title={Title} style={{ background: 'red', boxShadow: 'rgba(0, 0, 0, 0.05) 0px 2px 4px 0px'}}>
+		<Card title={Title}  style={{ border: '1px solid #dadce0', boxShadow: 'none'}}>
 			<div>
 				{children}
 			</div>

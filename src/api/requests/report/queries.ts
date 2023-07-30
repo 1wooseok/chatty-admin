@@ -1,17 +1,17 @@
 import { reportApi } from '~/api/requests/report/apis.ts'
 import { PagingParams } from '~/api/requests/models.type.ts'
-import { useQuery } from '@tanstack/react-query'
+import usePageQuery from '~/hooks/usePageQuery.tsx'
+import { ReportModel } from '~/api/requests/report/models.type.ts'
 
 const reportKeys = {
-	all: ['reports'] as const,
-	byPage: (params: PagingParams) => [...reportKeys.all, params] as const,
-}
+	all: ['reports'],
+	byPage: (params: PagingParams) => [...reportKeys.all, params],
+} as const
 
 export function useReportsByPage(params: PagingParams)
 {
-	return useQuery({
+	return usePageQuery<ReportModel>({
 		queryKey: reportKeys.byPage(params),
 		queryFn: () => reportApi.getByPage(params),
-		suspense: true
 	})
 }

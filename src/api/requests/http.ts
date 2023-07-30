@@ -7,12 +7,30 @@ class Http
 	
 	constructor()
 	{
+		const Token = localStorage.getItem('CHATTY_ADMIN_ACCESS')
+
 		this.instance = axios.create({
 			baseURL: this.BASE_URL,
 			headers: {
-				Authorization: 'Token f7c00e5f68073a1786744b81e58c0968c68708fd',
+				Authorization: Token ? `Token ${Token}` : null,
 			},
-			// withCredentials: true
+		})
+		
+		this.instance.interceptors.request.use((config) =>
+		{
+			const Token = localStorage.getItem('CHATTY_ADMIN_ACCESS')
+			
+			if (Token)
+			{
+				const currAuthHeader = config.headers.Authorization
+				
+				if (!currAuthHeader)
+				{
+					config.headers.Authorization = `Token ${Token}`
+				}
+			}
+
+			return config
 		})
 	}
 	
@@ -22,23 +40,23 @@ class Http
 		return res.data
 	}
 	
-	public async post<T>(url: string,  data?: any, config?: AxiosRequestConfig): Promise<T>
+	public async post<T>(url: string,  data?: Request, config?: AxiosRequestConfig): Promise<T>
 	{
 		const res = await this.instance.post<T>(url, data, config)
 		return res.data
 	}
 	
-	public async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>
-	{
-		const res = await this.instance.put<T>(url, data, config)
-		return res.data
-	}
-	
-	public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>
-	{
-		const res = await this.instance.delete<T>(url, config)
-		return res.data
-	}
+	// public async put<T>(url: string, data?: Request, config?: AxiosRequestConfig): Promise<T>
+	// {
+	// 	const res = await this.instance.put<T>(url, data, config)
+	// 	return res.data
+	// }
+	//
+	// public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>
+	// {
+	// 	const res = await this.instance.delete<T>(url, config)
+	// 	return res.data
+	// }
 }
 
 const http = new Http()

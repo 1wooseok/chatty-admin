@@ -1,46 +1,18 @@
 import { chattyApi } from '~/api/requests/chatty/apis.ts'
-import {
-	InfiniteData,
-	useInfiniteQuery,
-} from '@tanstack/react-query'
 import { ChattyModel } from '~/api/requests/chatty/model.type.ts'
+import { LazyTableState } from '~/hooks/usePaginator.tsx'
+import usePageQuery from '~/hooks/usePageQuery.tsx'
 
 const chattyKeys = {
-	all: ['chatty'] as const,
-	byPage: () => [...chattyKeys.all, 'infinite'] as const
-}
+	all: ['chatty'],
+	byPage: (page: number) => [...chattyKeys.all, 'infinite', page]
+} as const
 
-export function useChattyByPage()
+
+export function useChattyByPage({ page }: LazyTableState)
 {
-	const {
-		data,
-		fetchNextPage,
-		hasNextPage,
-		isFetchingNextPage,
-		
-	} = useInfiniteQuery({
-		queryKey: chattyKeys.byPage(),
-		queryFn: ({ pageParam = 1 }) => chattyApi.getByPage({ page: pageParam }),
-		getNextPageParam: (lastPage) => lastPage.next,
-		select: data => (
-			data?.pages?.flatMap(page => page?.results) as unknown as InfiniteData<ChattyModel>
-		),
+	return usePageQuery<ChattyModel>({
+		queryKey: chattyKeys.byPage(page),
+		queryFn: () => chattyApi.getByPage({ page }),
 	})
-	
-	function onFetchNext()
-	{
-		console.log({hasNextPage})
-		if (!hasNextPage)
-		{
-			return
-		}
-		
-		fetchNextPage()
-	}
-	
-	return {
-		chattyListRes: data as unknown as ChattyModel[],
-		isFetchingNextPage,
-		onFetchNext,
-	}
 }

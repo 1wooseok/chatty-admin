@@ -4,5 +4,5 @@ export type LoginPayload = {
 }
 
 export type LoginResponse = LoginPayload & {
-	token: string;
+	Token: string;
 }

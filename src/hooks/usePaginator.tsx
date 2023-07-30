@@ -1,24 +1,42 @@
 import {
-	useCallback,
 	useState
 } from 'react'
-import { PaginatorPageChangeEvent } from 'primereact/paginator'
+import { DataTablePageEvent } from 'primereact/datatable'
 
-type Params = {
-	initialFirst: number;
-	initialRows: number
-};
+export type LazyTableState = {
+	first: number;
+	rows: number;
+	page: number;
+}
 
-export default function usePaginator({ initialFirst, initialRows }: Params)
+export default function usePaginator()
 {
-	const [first, setFirst] = useState(initialFirst)
-	const [rows, setRows] = useState(initialRows)
+	const [lazyState, setLazyState] = useState<LazyTableState>({
+		first: 0,
+		rows: 10,
+		page: 1,
+	})
 	
-	const onPageChange = useCallback( (event: PaginatorPageChangeEvent) =>
+	function onClickPage({
+		page,
+		rows,
+		first
+	}: DataTablePageEvent)
 	{
-		setFirst(event.first)
-		setRows(event.rows)
-	}, [])
+		if (page === undefined)
+		{
+			return
+		}
+		
+		setLazyState({
+			page: page + 1,
+			rows,
+			first
+		})
+	}
 	
-	return { first, rows, onPageChange }
+	return {
+		lazyState,
+		onClickPage,
+	}
 }

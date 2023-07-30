@@ -15,12 +15,33 @@ export const DateTd = ({ serverDate }: { serverDate: ServerDateFormat }) =>
 	)
 }
 
+const CHATTY_CLIENT_DOMAIN = 'https://chatty.kr'
+
 export const ProfileTd = ({ profile_name, profile_image }: { profile_name: string; profile_image: string;  }) =>
 {
 	return (
 		<div className={'flex justify-items-start gap-xs'}>
 			<Avatar image={profile_image} shape="circle" size={'normal'}/>
-			<p className={'text-sm'}>{profile_name}</p>
+			<p className={'text-sm'}>
+				<a
+					target={'_blank'}
+					href={`${CHATTY_CLIENT_DOMAIN}/${profile_name}`}
+					className={'text-black hover:cursor-pointer hover:text-blue-500'}
+				>
+					{profile_name}
+				</a>
+			</p>
 		</div>
 	)
 }
+
+export const LongTextTd = ({ content }: { content: string; }) =>
+{
+	return (
+		<div className={'flex justify-items-start gap-xs max-w-[200px]'}>
+			<p className={'text-sm text-ellipsis whitespace-nowrap overflow-hidden'}>{content}</p>
+		</div>
+	)
+}
+
+
