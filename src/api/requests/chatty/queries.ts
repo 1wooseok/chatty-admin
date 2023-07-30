@@ -1,5 +1,4 @@
 import { chattyApi } from '~/api/requests/chatty/apis.ts'
-import { PagingParams } from '~/api/requests/models.type.ts'
 import {
 	InfiniteData,
 	useInfiniteQuery,
@@ -8,28 +7,21 @@ import { ChattyModel } from '~/api/requests/chatty/model.type.ts'
 
 const chattyKeys = {
 	all: ['chatty'] as const,
-	byPage: (params: PagingParams) => [...chattyKeys.all, params] as const
+	byPage: () => [...chattyKeys.all, 'infinite'] as const
 }
 
-export function useChattyByPage(params: PagingParams)
+export function useChattyByPage()
 {
 	const {
 		data,
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
+		
 	} = useInfiniteQuery({
-		queryKey: chattyKeys.byPage(params),
-		queryFn: ({ pageParam = 0 }) =>
-		{
-			console.log({ pageParam })
-			return chattyApi.getByPage(params)
-		},
-		getNextPageParam: (lastPage) =>
-		{
-			console.log({ lastPage })
-			return lastPage.next
-		},
+		queryKey: chattyKeys.byPage(),
+		queryFn: ({ pageParam = 1 }) => chattyApi.getByPage({ page: pageParam }),
+		getNextPageParam: (lastPage) => lastPage.next,
 		select: data => (
 			data?.pages?.flatMap(page => page?.results) as unknown as InfiniteData<ChattyModel>
 		),
@@ -37,6 +29,7 @@ export function useChattyByPage(params: PagingParams)
 	
 	function onFetchNext()
 	{
+		console.log({hasNextPage})
 		if (!hasNextPage)
 		{
 			return

@@ -16,7 +16,7 @@
     "@lukemorales/query-key-factory": "^1.3.2",
     "@suspensive/react-query": "^1.11.3",
     "@tanstack/react-query": "^4.29.19",
-    "@tanstack/react-query-devtools": "^4.29.19",
+    "@tanstack/react-query-devtools": "^4.32.0",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "primereact": "^9.5.0",

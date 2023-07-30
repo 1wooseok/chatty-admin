@@ -18,6 +18,7 @@ import {
 	QueryClientProvider
 } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -33,6 +34,7 @@ function App()
 	return (
 		<ErrorBoundary fallback={<div>Uncaught Runtime Error</div>}>
 			<QueryClientProvider client={queryClient}>
+				<ReactQueryDevtools initialIsOpen={false} />
 				<BrowserRouter>
 					<Layout>
 						<Routes>
