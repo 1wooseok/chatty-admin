@@ -9,10 +9,10 @@ import { Toast } from 'primereact/toast'
 import { Button } from 'primereact/button'
 import { LoginPayload } from '~/api/requests/auth/model.type.ts'
 import { useLogin } from '~/api/requests/auth/queries.ts'
-import { H1 } from '~/shared/typo/Heading.tsx'
 import { useAuth } from '../../context/authContext.tsx'
 import { Navigate } from 'react-router-dom'
 import { EUrls } from '~/constants/EUrls.ts'
+import H1 from '~/shared/typo/Heading.tsx'
 
 
 export default function Login()

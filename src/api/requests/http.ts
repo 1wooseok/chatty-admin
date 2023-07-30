@@ -40,7 +40,7 @@ class Http
 		return res.data
 	}
 	
-	public async post<T>(url: string,  data?: Request, config?: AxiosRequestConfig): Promise<T>
+	public async post<T>(url: string,  data?: unknown, config?: AxiosRequestConfig): Promise<T>
 	{
 		const res = await this.instance.post<T>(url, data, config)
 		return res.data
